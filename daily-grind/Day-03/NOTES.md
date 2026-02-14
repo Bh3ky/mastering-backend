@@ -304,3 +304,57 @@ app.add_middleware(
     - server-to-server requests
 
 - it only affects browsers because it is a browser security model. 
+
+
+## Rate Limiting (Basic)
+
+- without rate limiting:
+    - a single client can spam requests
+    - this would cause the server CPU to spike
+    - memory increases
+    - negatively affects other users
+
+- rate limiting means limiting how many requests a client can make within a certain time window. for example 5 request per 60 seconds per IP.
+- if exceeded: `429 Too Many Requests`
+
+- for now we just implement:
+    - in-memory storage
+    - per-IP tracking
+    - fixed time window
+
+**HOW??**
+
+1. first we identify the client using:
+
+```code
+request.client.host
+```
+- this gives the IP address.
+- Note: behind load balancers, this changes. 
+
+2. then we store request metadata using a global dictionary:
+
+```python
+rate_limit_score = {}
+```
+
+- structure:
+
+```python
+{
+    "127.0.0.1": {
+        "count": 3,
+        "window_start": 1700000000.0
+    }
+}
+```
+
+**Logic Flow**
+
+when request arrives:
+- get IP
+- if IP not in store -> initialize
+- if current_time - window_start > WINDOW:
+    - reset counter
+- increment counter
+- if counter > LIMIT -> return 429
