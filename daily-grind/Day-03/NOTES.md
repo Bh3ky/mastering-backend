@@ -358,3 +358,12 @@ when request arrives:
     - reset counter
 - increment counter
 - if counter > LIMIT -> return 429
+
+
+---
+
+### Questions
+
+1. what happens if we restart the server?
+- becuase the dictionary we built `rate_limit_score = {}` lives in RAM and inside the Python process, so when we restart the server the process dies since the memory is swipped. 
+    - which is why we need persistent storage like  Redis
