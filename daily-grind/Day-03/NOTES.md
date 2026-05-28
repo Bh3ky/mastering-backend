@@ -42,7 +42,7 @@ GET /news
 - without caching such a request would cause the server CPU to spike, latency increases which also directly cause an increase in costs. 
 
 
-QUE: what is caching?
+**QUE: what is caching?**
 
 - caching basically means reusing a previous response instead of generating a new one. 
 - HTTP supports caching at multiple layers
@@ -64,22 +64,25 @@ QUE: what is caching?
 Cache-Control: public, max-age=60
 ```
 
-- `public` that is any cache may store it
-- `max-age-60` the response if fresh for 60 seconds. fresh means client will not even contact server again.
+- `public` - that is any cache may store it
+- `max-age-60` -  the response if fresh for 60 seconds. fresh means client will not even contact server again.
 
-- helps reduce server load, latency, and network traffic
+- _why is this important?? helps reduce server load, latency, and network traffic_
 
 
 **How to Add Cache-Control Header in FastAPI**
 
-- FastAPI allowa us to modify headers by injecting a Response object into the route function (known as dependency injection).
+- FastAPI allows us to modify headers by injecting a Response object into the route function (known as dependency injection).
 
 - Note: FastAPI injects it automatically if we declare it as a parameter
 
 
 ### 2. ETag (Stronger Caching)
 
-- ETag = Entity Tag which is a string representing a specific version of a resource
+- ETag which stands for Entity Tag is a string representing a specific version of a resource.
+- ETags are just HTTP's solution to the question, "did this change?" problem. without them, every request wastes bandwidth sending the same data.
+- with them, the server becomes a gatekeeper that says "you already have the latest version, do not bother downloading again."
+
 
 ```code
 ETag: "abc123"
@@ -94,7 +97,7 @@ QUE: why hash??
 
 Conditional Requests
 
-- after first request, client stores the ETag. on the second request, client sends:
+- after a first request, client stores the ETag. on the second request, client sends:
 `If-None-Match: "abc123"`
 - server logic:
     - if current ETag == client ETag -> return 304 Not Modified
@@ -105,7 +108,7 @@ Conditional Requests
     - do NOT send body
     - client should reuse cached copy
 
-- this helps save bandwidth and CPU.
+- IMPORTANT: this helps save bandwidth and CPU.
 
 
 **How to Generate ETag**
@@ -123,9 +126,9 @@ Conditional Requests
 - we must access request headers, compare `If-None-Match`, and if equal -> return 304 with empty body (client already has the body).
 
 
-### CORS (Browser Security)
+## CORS (Browser Security)
 
-- CORS = cross-origin resource sharing
+- CORS - cross-origin resource sharing
     - refers to the situations when a frontend running in a browser has JavaScript code that communicates with a backend, and the backend is in a different "origin" than the frontend.
 
 - an origin consists of scheme (http/https), host, and port
@@ -206,7 +209,7 @@ def get_resource(response: Response) -> dict[str, str]:
 - browser security is very critical because:
     - backend APIs rarely live alone
     - they are almost always called by browsers
-    - browswers enforce security rules that curl doesn't
+    - browsers enforce security rules that curl doesn't
 
 **What is an origin??**
 
@@ -216,9 +219,7 @@ Schema + Host + Port
 ```
 
 example: `http://localhost:3000`
-- Note: if any of these differe, it is a different origin. 
-
-- Note: CORS is enforced by the browser, not the server. the server simply declares permissions
+- Note: if any of these differ, it is a different origin. CORS is enforced by the browser, not the server. the server simply declares permissions
 
 
 **Why CORS exists??**
@@ -238,7 +239,7 @@ example: `http://localhost:3000`
     Origin: http://localhost:3000
     ```
 
-    2. aerver must respond with:
+    2. server must respond with:
     ```code
     Access-Control-Allow-Origin: http://localhost:3000
     ```
@@ -272,7 +273,6 @@ Access-Control-Allow-Headers
 ```
 
 - then browser sends real request
-
 
 - FastAPI provides middleware to handle all of this automatically. 
 
@@ -366,4 +366,4 @@ when request arrives:
 
 1. what happens if we restart the server?
 - becuase the dictionary we built `rate_limit_score = {}` lives in RAM and inside the Python process, so when we restart the server the process dies since the memory is swipped. 
-    - which is why we need persistent storage like  Redis
+    - which is why we need persistent storage like  Redis.
