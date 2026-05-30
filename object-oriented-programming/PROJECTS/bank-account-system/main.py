@@ -1,22 +1,34 @@
-from app.models.bank import Bank
-from app.models.bank_account import BankAccount
+from app.models.savings_account import SavingsAccount
+from app.models.current_account import CurrentAccount
+from app.models.business_account import BusinessAccount
 
-bank = Bank("XL Bank")
+savings = SavingsAccount(
+    "Brian",
+    1000,
+    5
+)
 
-account1 = BankAccount("Brian", 1000)
-account2 = BankAccount("Alice", 500)
+current = CurrentAccount(
+    "Alice",
+    500,
+    1000
+)
 
-bank.add_account(account1)
-bank.add_account(account2)
+business = BusinessAccount(
+    "Tech Corp",
+    10000
+)
 
-account1.deposit(300)
-account1.withdraw(150)
+savings.apply_interest()
 
-account1.transfer(account2, 200)
+current.withdraw(1200)
 
-account1.display_balance()
-account2.display_balance()
+business.withdraw(1000)
 
-account1.show_transactions()
+print(savings)
+print(current)
+print(business)
 
-bank.show_all_accounts()
+savings.show_transactions()
+current.show_transactions()
+business.show_transactions()

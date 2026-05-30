@@ -10,7 +10,7 @@ class BankAccount:
         self.account_number = f"ACC{BankAccount.account_count}"
         self.owner = owner
         self._balance = balance
-        self.transaction_count = 0
+        # self.transaction_count = 0
         self.transactions = []
 
 
@@ -20,45 +20,49 @@ class BankAccount:
     
 
     def deposit(self, amount: float):
-        if amount <= 0:
-            raise ValueError("Deposit amount must be positive.")
-        
-        self._balance += amount
-        self.transaction_count += 1
+        self._validate_amount(amount)
 
-        transaction = Transaction("deposit", amount)
-        self.transactions.append(transaction)
+        self._balance += amount
+        
+        self._add_transaction("deposit", amount)
 
 
     def withdraw(self, amount: float):
-        if amount <= 0:
-            raise ValueError("Withdrawal amount must be positive.")
-        
-        if amount > self._balance:
-            raise ValueError("Insufficient funds.")
-        
-        self._balance -= amount
-        self.transaction_count += 1
+        self._validate_amount(amount)
 
-        transaction = Transaction("withdraw", amount)
-        self.transactions.append(transaction)
+        if amount > self._balance:
+            raise ValueError("Insufficient funds")
+
+        self._balance -= amount
+
+        self._add_transaction("withdrawal", amount)
 
 
     def transfer(self, target_account, amount: float):
         self.withdraw(amount)
         target_account.deposit(amount)
-        
 
-    def display_balance(self):
-        print(
-            f"{self.owner} "
-            f"({self.account_number}) "
-            f"has ${self._balance}"
-        )
+
+    def _validate_amount(self, amount):
+        if amount <= 0:
+            raise ValueError("Amount must be positive.")
+        
+    
+    def _add_transaction(self, transaction_type, amount):
+        transaction = Transaction(transaction_type, amount)
+        self.transactions.append(transaction)
 
 
     def show_transactions(self):
-        print(f"\nTransaction History for {self.owner}")
+        print(f"\nTransaction for {self.owner}")
 
         for transaction in self.transactions:
             print(transaction)
+        
+
+    def __str__(self):
+        return (
+            f"{self.account_number} |"
+            f"{self.owner} | "
+            f"Balance: ${self.balance}"
+        )
