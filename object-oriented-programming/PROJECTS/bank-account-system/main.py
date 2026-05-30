@@ -1,34 +1,17 @@
-from app.models.savings_account import SavingsAccount
-from app.models.current_account import CurrentAccount
-from app.models.business_account import BusinessAccount
+from app.models.credit_card_payment import ( CreditCardPayment )
+from app.models.paypal_payment import ( PayPalPayment )
+from app.models.crypto_payment import ( CryptoPayment )
+from app.models.bank_transfer_payment import ( BankTransferPayment)
+from app.services.payment_processor import ( PaymentProcessor )
 
-savings = SavingsAccount(
-    "Brian",
-    1000,
-    5
-)
+processor = PaymentProcessor()
 
-current = CurrentAccount(
-    "Alice",
-    500,
-    1000
-)
+payments = [
+    CreditCardPayment(500),
+    PayPalPayment(300),
+    CryptoPayment(1000),
+    BankTransferPayment(750)
+]
 
-business = BusinessAccount(
-    "Tech Corp",
-    10000
-)
-
-savings.apply_interest()
-
-current.withdraw(1200)
-
-business.withdraw(1000)
-
-print(savings)
-print(current)
-print(business)
-
-savings.show_transactions()
-current.show_transactions()
-business.show_transactions()
+for payment in payments:
+    processor.process(payment)
