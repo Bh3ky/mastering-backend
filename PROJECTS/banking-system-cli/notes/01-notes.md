@@ -1,0 +1,57 @@
+## Core Domain Model
+
+- first we need to create reusable generators
+
+file: `app/utils/generators.py`
+
+- create customer model
+
+Note: `self.accounts = []` is an example of composition which is a common systems design technique. here the relationship is one customer can have multiple accounts
+
+```text
+Customer
+│
+├── Account #1
+├── Account #2
+└── Account #3
+```
+
+- in database later:
+
+```text
+customers
+    |
+    | 1 : many
+    |
+accounts
+```
+
+- the same model will transfer directly into SQL.
+
+
+- the method `_record_transaction()` has a leading underscore meaning that it's internal/private and other classes should not call it directly. only `deposit()` and `withdraw()` can use it. _encapsulation_
+
+
+- now that accounts exist, we can link them for example:
+
+```python
+customer = Customer(
+    "Brian",
+    "Doe"
+)
+
+account = BankAccount(
+    owner=customer,
+    pin="1234"
+)
+
+customer.add_account(account)
+```
+
+relationship:
+
+```text
+Customer
+    |
+    +-- Account
+```
