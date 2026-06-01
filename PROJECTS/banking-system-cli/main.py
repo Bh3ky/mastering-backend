@@ -15,6 +15,10 @@ from app.services.banking_service import (
     BankingService
 )
 
+from app.cli.dashboard import (
+    dashboard_loop
+)
+
 def main():
 
     service = BankingService()
@@ -31,7 +35,15 @@ def main():
             handle_create_account(service)
 
         elif choice == "2":
-            handle_login(service)
+            
+            account = handle_login(service)
+
+            if account:
+
+                dashboard_loop(
+                    service,
+                    account
+                )
 
         elif choice == "3":
             print("\nThank you for using CLBANK!")

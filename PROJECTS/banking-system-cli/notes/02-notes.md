@@ -76,3 +76,33 @@ validate_name()
 ```
 
 - and other custom exceptions
+
+
+- at this point we have:
+
+```text
+Main Menu
+│
+├── Create Account
+├── Login
+└── Exit
+```
+
+- after login: `account = service.login(...) and then the program basically ends that interaction. now we have to expand our logic flow to:
+
+```text
+Main Menu
+│
+├── Create Account
+├── Login
+│    │
+│    ▼
+│  Dashboard
+│    ├── Deposit
+│    ├── Withdraw
+│    ├── Balance
+│    ├── Transactions
+│    └── Logout
+│
+└── Exit
+```

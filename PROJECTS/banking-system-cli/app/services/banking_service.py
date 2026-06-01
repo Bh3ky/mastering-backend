@@ -3,11 +3,11 @@ banking_service.py
 
 Application service layer.
 
-Coordinates business operations between the CLI and domain models.
+Acts as the bridge between the CLI and the domain models.
 """
 
 from app.models.bank import Bank
-
+from app.models.account import BankAccount
 
 class BankingService:
 
@@ -18,11 +18,12 @@ class BankingService:
 
 
     def register_customer(
-            self,
-            first_name: str,
-            last_name: str,
-            pin: str
-    ):
+        self,
+        first_name: str,
+        last_name: str,
+        pin: str
+    ) -> BankAccount:
+        
         """
         Create customer and account.
         """
@@ -32,19 +33,17 @@ class BankingService:
             last_name
         )
 
-        account = self.bank.create_account(
+        return self.bank.create_account(
             customer,
             pin
         )
 
-        return account
-    
 
     def login(
-            self,
-            account_number: str,
-            pin: str
-    ):
+        self,
+        account_number: str,
+        pin: str
+    ) -> BankAccount | None:
         """
         Authenticate user.
         """
@@ -53,5 +52,46 @@ class BankingService:
             account_number,
             pin
         )
+    
+
+    def deposit(
+        self,
+        account: BankAccount,
+        amount: float
+    ) -> None:
+        """
+        Deposit money into account.
+        """
+
+        account.deposit(amount)
+
+
+    def withdraw(
+        self,
+        account: BankAccount,
+        amount: float
+    ) -> None:
+        
+        """
+        Withdraw money from account.
+        """
+
+        account.withdraw(amount)
+
+
+    def get_balance(
+        self,
+        account: BankAccount
+    ) -> float:
+        
+        return account.get_balance()
+    
+
+    def get_transactions(
+        self,
+        account: BankAccount
+    ) -> list:
+        
+        return account.transactions
     
 
