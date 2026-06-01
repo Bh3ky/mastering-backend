@@ -1,23 +1,44 @@
-from app.models.bank import Bank
+"""
+Application entry point.
+"""
+
+from app.cli.menu import (
+    display_main_menu
+)
+
+from app.cli.handlers import (
+    handle_create_account,
+    handle_login
+)
+
+from app.services.banking_service import (
+    BankingService
+)
 
 def main():
 
-    bank = Bank()
+    service = BankingService()
+    
+    while True:
 
-    customer = bank.create_customer(
-        "Brian",
-        "Doe"
-    )
+        display_main_menu()
 
-    account = bank.create_account(
-        customer,
-        "1234"
-    )
+        choice = input(
+            "Select an option: "
+        )
 
-    account.deposit(500)
+        if choice == "1":
+            handle_create_account(service)
 
-    print(account)
+        elif choice == "2":
+            handle_login(service)
 
+        elif choice == "3":
+            print("\nThank you for using CLBANK!")
+            break
+
+        else:
+            print("Invalid option.")
 
 if __name__ == "__main__":
     main()
