@@ -1,30 +1,23 @@
-from app.models.customer import Customer
-from app.models.account import BankAccount
+from app.models.bank import Bank
 
 def main():
 
-    customer = Customer(
-        first_name="Brian",
-        last_name="Doe"
+    bank = Bank()
+
+    customer = bank.create_customer(
+        "Brian",
+        "Doe"
     )
 
-    account = BankAccount(
-        owner=customer,
-        pin="1234"
+    account = bank.create_account(
+        customer,
+        "1234"
     )
-
-    customer.add_account(account)
 
     account.deposit(500)
 
-    account.withdraw(100)
-
     print(account)
 
-    print("Transactions:")
-
-    for transaction in account.transactions:
-        print(transaction)
 
 if __name__ == "__main__":
     main()

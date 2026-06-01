@@ -55,3 +55,47 @@ Customer
     |
     +-- Account
 ```
+
+## Authentication
+
+- right now our objects exist independently:
+
+```python
+customer = Customer(...)
+account = BankAccount(...)
+```
+
+- but who manages them? who creates accounts? who searches accounts? who authenticates users? who ensures account numbers are unique?
+- this is the responsibility of the Bank.
+
+**What is an Aggregate Root?**
+
+In Domain-Driven Design (DDD), an aggregate root is the main object responsible for managing a group of related objects. 
+
+- for our system:
+
+```text
+Bank
+│
+├── Customers
+│
+├── Accounts
+│
+└── Authentication
+```
+
+- everything flows through the Bank.
+- instead of `account = BankAccount(...)` we have `bank.create_account(...)`. this gives us a single control point. 
+
+
+**Why Dictionaries??**
+
+- we use `self.accounts = {}` instead of `self.accounts = []` why??
+    - a list would require a for loop: 
+    ```python
+    for account in accounts:
+        ...
+    ```
+    - every time we search which leads to a complexity of O(n).
+
+    - on the other hand a dictionary gives `accounts[account_number]` with a complexity of O(1).
