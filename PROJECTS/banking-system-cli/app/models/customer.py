@@ -44,6 +44,18 @@ class Customer:
 
         return f"{self.first_name} {self.last_name}"
     
+
+    def to_dict(self) -> dict:
+        """
+        Convert customer to dictionary.
+        """
+
+        return {
+            "customer_id": self.customer_id,
+            "first_name": self.first_name,
+            "last_name": self.last_name
+        }
+    
     def __str__(self) -> str:
         """
         Human-readable representation.

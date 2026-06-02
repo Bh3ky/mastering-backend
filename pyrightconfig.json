@@ -1,0 +1,10 @@
+{
+	"executionEnvironments": [
+		{
+			"root": "PROJECTS/banking-system-cli",
+			"extraPaths": [
+				"PROJECTS/banking-system-cli"
+			]
+		}
+	]
+}

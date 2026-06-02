@@ -4,5 +4,14 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"python.analysis.extraPaths": [
+			"PROJECTS/banking-system-cli"
+		],
+		"python.testing.pytestArgs": [
+			"PROJECTS/banking-system-cli/tests"
+		],
+		"python.testing.unittestEnabled": false,
+		"python.testing.pytestEnabled": true
+	}
 }

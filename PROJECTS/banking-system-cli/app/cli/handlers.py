@@ -6,41 +6,58 @@ Contains functions responsible for handling user interactions.
 
 from app.services.banking_service import BankingService
 
+from app.validators.validators import (
+    validate_name,
+    validate_pin
+)
+
+from app.exceptions.banking_exceptions import (
+    ValidationError
+)
+
 
 def handle_create_account(
         service: BankingService
 ) -> None:
     
-    print("\n--- Create Account ---")
+    try:
+    
+        print("\n--- Create Account ---")
 
-    first_name = input(
-        "First name: "
-    )
+        first_name = validate_name(
+            input("First name: ")
+        )
 
-    last_name = input(
-        "Last name: "
-    )
+        last_name = validate_name(
+            input("Last name: ")
+        )
 
-    pin = input(
-        "Choose 4-digit PIN:"
-    )
+        pin = validate_pin(
+            input("Choose 4-digit PIN: ")
+        )
 
-    account = service.register_customer(
-        first_name,
-        last_name,
-        pin
-    )
+        account = service.register_customer(
+            first_name,
+            last_name,
+            pin
+        )
 
-    print()
+        print()
 
-    print(
-        "Account created successfully!"
-    )
+        print(
+            "Account created successfully!"
+        )
 
-    print(
-        f"Account Number: "
-        f"{account.account_number}"
-    )
+        print(
+            f"Account Number: "
+            f"{account.account_number}"
+        )
+
+    except ValidationError as error:
+
+        print(
+            f"\nValidation Error: {error}"
+        )
 
 
 def handle_login(

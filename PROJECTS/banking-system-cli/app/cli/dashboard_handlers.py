@@ -9,6 +9,10 @@ from app.services.banking_service import (
     BankingService
 )
 
+from app.validators.validators import (
+    validate_amount
+)
+
 
 # deposit handler
 def handle_deposit(
@@ -18,10 +22,10 @@ def handle_deposit(
 
     try:
 
-        amount = float(
-            input(
+        amount = validate_amount(
+            float(input(
                 "Enter amount to deposit: "
-            )
+            ))
         )
 
         service.deposit(
@@ -53,10 +57,10 @@ def handle_withdraw(
 
     try:
 
-        amount = float(
-            input(
+        amount = validate_amount(
+            float(input(
                 "Enter amount to withdraw: "
-            )
+            ))
         )
 
         service.withdraw(

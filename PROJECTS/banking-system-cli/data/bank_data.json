@@ -1,0 +1,27 @@
+{
+    "customer": [
+        {
+            "customer_id": "CUST-ac8171",
+            "first_name": "Jessie",
+            "last_name": "May"
+        }
+    ],
+    "accounts": [
+        {
+            "account_number": "83746518",
+            "customer_id": "CUST-ac8171",
+            "balance": 100.0,
+            "pin": "8989",
+            "transactions": [
+                {
+                    "type": "DEPOSIT",
+                    "amount": 100.0,
+                    "balance_after": 100.0,
+                    "timestamp": "2026-06-02T20:37:45.308317"
+                }
+            ],
+            "is_locked": false,
+            "failed_login_attempts": 0
+        }
+    ]
+}

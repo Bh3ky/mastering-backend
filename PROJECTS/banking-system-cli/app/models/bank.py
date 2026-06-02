@@ -89,6 +89,26 @@ class Bank:
         )
     
 
+    def to_dict(self) -> dict:
+        """
+        Export banking data.
+        """
+
+        return {
+            "customer": [
+                customer.to_dict()
+                for customer
+                in self.customers.values()
+            ],
+
+            "accounts": [
+                account.to_dict()
+                for account
+                in self.accounts.values()
+            ]
+        }
+    
+
     def authenticate(
             self,
             account_number: str,

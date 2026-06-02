@@ -9,6 +9,10 @@ Acts as the bridge between the CLI and the domain models.
 from app.models.bank import Bank
 from app.models.account import BankAccount
 
+from app.storage.json_storage import (
+    JsonStorage
+)
+
 class BankingService:
 
     def __init__(self) -> None:
@@ -17,12 +21,22 @@ class BankingService:
         self.bank = Bank()
 
 
+    def save_data(self) -> None:
+        """
+        Save current bank state.
+        """
+
+        JsonStorage.save(
+            self.bank.to_dict()
+        )
+
+
     def register_customer(
         self,
         first_name: str,
         last_name: str,
         pin: str
-    ) -> BankAccount:
+    ):
         
         """
         Create customer and account.
@@ -33,10 +47,15 @@ class BankingService:
             last_name
         )
 
-        return self.bank.create_account(
+        account = self.bank.create_account(
             customer,
             pin
         )
+
+        # persist newly created customer/account
+        self.save_data()
+
+        return account
 
 
     def login(
@@ -58,25 +77,31 @@ class BankingService:
         self,
         account: BankAccount,
         amount: float
-    ) -> None:
+    ):
         """
         Deposit money into account.
         """
 
         account.deposit(amount)
 
+        # persist updated balance
+        self.save_data()
+
 
     def withdraw(
         self,
         account: BankAccount,
         amount: float
-    ) -> None:
+    ):
         
         """
         Withdraw money from account.
         """
 
         account.withdraw(amount)
+
+        # persist updated balance
+        self.save_data()
 
 
     def get_balance(

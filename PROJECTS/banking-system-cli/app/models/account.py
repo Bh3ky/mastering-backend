@@ -14,6 +14,11 @@ from datetime import datetime
 
 from app.utils.generators import generate_account_number
 
+from app.exceptions.banking_exceptions import (
+    InvalidAmountError,
+    InsufficientFundsError
+)
+
 
 class BankAccount:
     """
@@ -80,8 +85,8 @@ class BankAccount:
         """
 
         if amount <= 0:
-            raise ValueError(
-                "Deposit amount must be greater than zero."
+            raise InvalidAmountError(
+                "Deposit amount must be positive."
             )
         
         self.balance += amount
@@ -98,12 +103,12 @@ class BankAccount:
         """
 
         if amount <= 0:
-            raise ValueError(
-                "Withdrawal amount must be greater than zero."
+            raise InvalidAmountError(
+                "Withdrawal amount must be positive."
             )
         
         if amount > self.balance:
-            raise ValueError(
+            raise InsufficientFundsError(
                 "Insufficient funds."
             )
         
@@ -131,7 +136,7 @@ class BankAccount:
                 "type": transaction_type,
                 "amount": amount,
                 "balance_after": self.balance,
-                "timestamp": datetime.now()
+                "timestamp": datetime.now().isoformat()
             }
         )
 
@@ -141,6 +146,24 @@ class BankAccount:
         Return account balance."""
 
         return self.balance
+    
+
+    def to_dict(self) -> dict:
+        """
+        Convert account to dictionary.
+        """
+
+        return {
+            "account_number": self.account_number,
+            "customer_id": (
+                self.owner.customer_id
+            ),
+            "balance": self.balance,
+            "pin": self._pin,
+            "transactions": self.transactions,
+            "is_locked": self.is_lcoked,
+            "failed_login_attempts": self.failed_login_attempts
+        }
     
 
     def __str__(self) -> str:
