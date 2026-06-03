@@ -23,3 +23,27 @@ Storage
 - there is a problem that needs to be solved. Python objects cannot be stored directly.
 - this fails: `json.dump(account)` because BankAccount is not JSON serializable.
 - thus, every domain model needs `to_dict` and eventually `from_dict`.
+
+
+- on the previous lesson, we were able to convert `Customer(...)` into:
+
+```json
+{
+    "customer_id": "...",
+    "first_name": "...",
+    "last_name": "..."
+}
+```
+- now we have to do the reverse. why??? when the application starts `service = BankingService()` we want:
+
+```text
+Load JSON
+↓
+Rebuild Customers
+↓
+Rebuild Accounts
+↓
+Restore Relationships
+↓
+Application Ready
+```
