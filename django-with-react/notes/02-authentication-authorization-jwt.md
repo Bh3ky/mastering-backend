@@ -128,3 +128,24 @@ What is a Django application?
 
 ```python
 AUTH_USER_MODEL = 'core_user.User'
+```
+
+
+## Writing UserSerializer
+
+- a serializer allows us to convert complex Django data structures such as `QuerySet` or model instances into Python native objects that can be easily converted to JSON or XML format.
+- a serializer can also serialize JSON or XML to native Python
+
+**Django Rest Framework (DRF)** provides a `serializers` package that we can use to write serializers and also validations when API calls are made to an endpoint using this serializer. 
+
+- command for installing the DRF:
+
+```bash
+pip install djangorestframework django-filter
+```
+
+- then we add `rest_framework` to the `INSTALLED_APPS` setting.
+
+- we create a file `serializers.py` in the `core/user` directory and write our `UserSerializer` class
+
+- 
