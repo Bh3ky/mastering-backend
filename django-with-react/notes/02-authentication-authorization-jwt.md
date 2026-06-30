@@ -148,4 +148,39 @@ pip install djangorestframework django-filter
 
 - we create a file `serializers.py` in the `core/user` directory and write our `UserSerializer` class
 
-- 
+- the `UserSerializer` class inherits from the `serializers.ModelSerializer` class. it's a class inheriting from the `serializers.Serializer` class but has deep integrations for supporting a model. it automatically matches the field of the model to the correct validation.
+
+    - e.g., since we specified that the email is unique, when someone tries to register with an email that already exists in the database, they receive an error message.
+
+- the `fields` attribut contains all the fields that can be read or written. 
+
+
+## Writing UserViewset
+
+- since Django is based on **Model-View-Template** architecture, the model can communicate with the views (or controllers) and the template displays responses or redirects requests to the views.
+
+- however, when Django is coupled with DRF, the model can be directly connected to the view. NB: it's always recommended to use a serializer between a model and a viewset. why??
+    - helps with validation and some checks
+
+**What is a viewset??**
+- a viewset is simply a class-based view that can handle all the basic HTTP requests—`GET`, `POST`, `PUT`, `DELETE`, and `PATCH`—without hardcoding any CRUD logic.
+
+- DRF provides a class named `APIView` from which a lot of classes from DRF inherit to perform CRUD operations.
+
+- for the `viewset` user, we only allowing the `PATCH` and `GET` methods. the endpoints:
+
+
+|Method | URL | Result |
+| --- | --- | --- |
+| `GET`| `/api/user/` | List all the users |
+| `GET` | `/api/user/user_pk` | Retrieves a specific user |
+| `PATCH` | `/api/user/user_pk` | Modifies a user |
+
+- `serializer_class` and `permission_classes` to `AllowAny` and they can be accessed by anybody.
+
+two methods:
+
+1. `get_queryset` - used by the viewset to get a list of all the users. this method will be called when `/user/` is hit with a `GET` request.
+
+2. `get_object` - this method is used by the viewset to get one user. it is called when a `GET` or `PUT` request is made on the `/user/id/` endpoint, with `id` representing the ID of the user.
+
