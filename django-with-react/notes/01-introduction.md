@@ -76,3 +76,43 @@ RESTful systems support different data formats such as plain text, HTML, YAML, J
 
 
 Model-View-Template (MVT)
+
+
+## Setting up working environment
+
+- to create a new project in Django we use the `django-admin` command:
+
+```bash
+django-admin startproject <name> .
+```
+
+- then we run a migration command:
+
+```bash
+python manage.py migrate
+```
+
+- NB: migrations are a way to propagate changes made to the model (such as **User** used for authentication) in the database schema.
+
+- Django had **object-relational mapping (ORM)** that automatically handles the interaction with the database. 
+    - ORM is basically a technique for mapping models to the relational database using Python.
+
+**Files in our directory**
+
+1. `manage.py` - is a utility provided by Django which helps us create projects and applications, run migrations, start a server etc. 
+
+2. `CoreRoot/` - is the project we created using the `django-admin` command. contains the following files:
+    - `urls.py` - contains all the URLs that will be used to access resources in the project
+
+    ```python
+    from django.contrib import admin
+    from django.urls import path
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+    ]
+    ```
+
+    - `wsgi.py` - used for deployment but also the default development environment in Django.
+    - `asgi.py` - Django supports running asynchronous code as an ASGI application
+    - `settings.py` - contains all the configurations for the Django project. here we can find `SECRET_KEY`, the `INSTALLED_APPS` list, `ALLOWED_HOST` etc.
