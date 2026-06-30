@@ -115,3 +115,16 @@ What is a Django application?
 
 - `__str__` method is rewritten to return a string which can help us quickly identify a `User` object.
 
+
+## Creating the user and superuser
+
+- for the `create_user` method, we make sure that the fields such as `password`, `email`, `username`, `first_name`, `last_name` are not None. 
+
+- we use `save()` method to save the user in the table if everything is correct in the model.
+
+- after this stage, we register the user application in the `CoreRoot/settings,py` and then run migrations to create the table in the database.
+
+- also need to tell Django to use this `User` model for the authentication user model. in `CoreRoot/settings.py` we add:
+
+```python
+AUTH_USER_MODEL = 'core_user.User'
