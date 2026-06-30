@@ -81,3 +81,37 @@ django-admin startapp core
 
 
 **Django models**
+
+- Django models provide **object-relational mapping (ORM)** to the underlying databse. 
+    - ORM is a tool that simplifies database programming by providing a simple mapping between the object and the database.
+    - it abstracts us from being worried about the database structure or writing complex SQL queries to manipulate or retrieve data from the database.
+
+- advantages of writing models with Django:
+    1. simplicity
+    2. consistency
+    3. tracking
+
+- Django Manger is a class which behaves as an interface through which Django models interact with databases.
+    - every Django model inherits the `models.Manager` class by default that comes with the necessary methods to make **Create, Read, Update, and Delete(CRUD)** operations on the table in the database
+
+## Writing the User model
+
+- Django comes a pre-built-in **User** model that we can use for basic authentication or a session. 
+    - it provides authentication feature we can use to quickly add authentication and authorization to our projects. 
+
+What is a superuser?
+- a user with administrator permission.
+
+What is a Django application?
+- it's a submodule of a Django project or a Python package structured to work in a Django project and share Django conventions such as containing files or submodules such as `models`, `tests`, `urls`, and `views`.
+
+- the `models` module from Django some field utilities that can be used to write fields and add some rules e.g.,:
+    - `CharField` - represents the type of field to create in the `User` table similar to `BooleanField`.
+    - `EmailField` is also `CharField` but rewritten to validate the email that is passed as a value to this field.
+
+- NB: `EMAIL_FIELD` and `USERNAME_FIELD` are set as email and username to respectively to provide two fields for login.
+
+- `name` method is basically a model property, which can be accessed anywhere on a `User` object, such as `User.name`
+
+- `__str__` method is rewritten to return a string which can help us quickly identify a `User` object.
+
