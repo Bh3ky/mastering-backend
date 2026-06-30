@@ -116,3 +116,67 @@ python manage.py migrate
     - `wsgi.py` - used for deployment but also the default development environment in Django.
     - `asgi.py` - Django supports running asynchronous code as an ASGI application
     - `settings.py` - contains all the configurations for the Django project. here we can find `SECRET_KEY`, the `INSTALLED_APPS` list, `ALLOWED_HOST` etc.
+
+
+## Configuring the database
+
+- Django by default uses sqlite3 as a database, which is an in-process library that **implements a fast-contained, zero-configuration, serverless, transactional SQL database engine**. 
+    - disadvantages: no multi-user capabilities [lack of granular access control and some security capabilities]. 
+
+- NB: in this project we will be using Postgres.
+
+**Postgres configuration**
+
+- PostgreSQL is a powerful and highly extensible object-relational SQL database system that comes with interesting features such as:
+    1. user-defined types
+    2. table inheritance
+    3. asynchronous replication
+    4. multi-user capabilities
+
+> synchronous programming waits. asynchronous programming does not.
+
+- we install `psycopg` which is a PostgreSQL adapter for Python.
+
+```bash
+pip install psycopg2-binary
+```
+
+- now we create the database. but for this we have to connect as a Postgres user in the terminal and then access the **psql** terminal [allows us to run SQL commands]. 
+
+```bash
+brew services start postgresql
+```
+
+- then enter `psql`.
+
+To create the database we run the following commands in sequence:
+
+```sql
+CREATE DATABASE coredb;
+
+CREATE USER core WITH PASSWORD 'insert_password';
+
+GRANT ALL PRIVILEGES ON DATABASE coredb TO core;
+
+ALTER USER core CREATEDB;
+```
+
+## Connecting the database
+
+- connecting the database to Django requires some configurations, which are done in the `settings.py` file
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'coredb',
+        'USER': 'core',
+        'PASSWORD': 'wCh29&HE&T83',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+```
+
+NOTE: it's important to have an API client to test our API and make sure it behaves as we need it to. 
+    - API clients are packagees, or libraries to send HTTP requests to an API [they support SSL checking, authentication, and header modification].
