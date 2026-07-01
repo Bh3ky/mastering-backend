@@ -199,3 +199,6 @@ two methods:
 
     - NB: `basename` argument is optional but it's good practice to use one. helps for readability and also helps Django registry purposes.
         - the base to use for the URL names that are created. if unset the `basename` will be automatically generated based on the queryset attribute of the viewset, if it has one. NB that if the viewset does not include a queryset attribute then must set `basename` when registering the viewset.
+
+- NOTE: now that the user route is working, we need to change the permission so that users don't send requests to modify their name using `PATCH` requests.
+    - change the permission on the `permission_classes` attribute in the `UserViewSet` class
