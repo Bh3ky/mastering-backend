@@ -184,3 +184,18 @@ two methods:
 
 2. `get_object` - this method is used by the viewset to get one user. it is called when a `GET` or `PUT` request is made on the `/user/id/` endpoint, with `id` representing the ID of the user.
 
+
+## Adding a router
+
+- routers allow us to quickly declare all of the common routes for a given controller.
+
+- REST framework adds support for automatic URL routing to Django, and provides you with a simple, quick and consistent way of wiring your view logic to a set of URLs.
+
+- at the root of the apps project (`core`) we add a file `routers.py`:
+
+    - to register a route for a viewset, the `register()` method needs two arguments:
+        1. prefix - representing the name of the endpoint.
+        2. viewset - only representing a valid viewset class.
+
+    - NB: `basename` argument is optional but it's good practice to use one. helps for readability and also helps Django registry purposes.
+        - the base to use for the URL names that are created. if unset the `basename` will be automatically generated based on the queryset attribute of the viewset, if it has one. NB that if the viewset does not include a queryset attribute then must set `basename` when registering the viewset.
