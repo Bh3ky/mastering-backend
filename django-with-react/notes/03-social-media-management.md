@@ -59,3 +59,26 @@ Post feature requirements
 
 - then we add the `AbstractViewSet` class to the code where `ModelViewSets` is actually called. directory `core/user/viewsets.py`
 
+## Writing the Post model
+
+Core feautes:
+
+1. new application called `post/`
+2. rewrite `apps.py`
+3. `Post` model in `core/post/models.py`
+
+- here we create the `ForeignKey` relationship. Django models provide tools to handle this kind of relationship, and it is also symmetrical i.e., not only can we use the `Post.author` syntax to access the user object, but we can also access posts created by a user using the `User.post_set` syntax.
+
+- NB: the latter syntax will return a `queryset` object containing the posts created by the user because we are in a `ForeignKey` relationship [which is one-to-many]. 
+
+- on the `on_delete` attribute with the `models.CASCADE` value, we used `CASCADE` why?? so that when a user is deleted from the database, Django will also delete all records of posts in relation to this user.
+
+
+- NB: apart from `CASCADE` as a value for the `on_delete` attribute on a `ForeignKey` relationship, we can also have the following
+    - `SET_NULL` - this sets the child object foreign key to null on delete.
+    
+    - `SET_DEFAULT` - sets the child object to the default value given while writing the model.
+
+    - `RESTRICT` - raises `RestrictedError` under certain conditions.
+
+    - `PROTECT` - prevents the foreign key object from being deleted as long as there are objects linked to the foreign key object.
