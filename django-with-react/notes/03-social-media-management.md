@@ -95,3 +95,23 @@ Core feautes:
 - the `validated_author` method checks validation for the `author` field. 
     - here we are making sure that the user creating the post is the same user as in the `author` field.
     - a context dictionary is available in every serializer. usually contains the request object that we can use to make some checks.
+
+
+## Writing Post viewsets
+
+- for this endpoint, we ony allowing the `POST` and `GET` methods.
+
+- our code should follow these rules:
+
+    1. only authenticated users can create posts.
+    2. only authenticated users can read posts.
+    3. only `GET` and `POST` methods are allowed.
+
+- inside the `core/post/` directory we create a new file `viewsets.py`
+
+    - `get_queryset` method returns all the post.
+    - `get_object` method returns a `post` using `public_id` that will be present in the URL. we retrieve this parameter from the `self.kwargs` directory.
+
+    - the `create` method, which is the `ViewSet` action executed on `POST` requests on the endpoint linked to `ViewSet`. simply pass the data to the serializer declared on `ViewSet`, validate the data, and then call the `perform_create` method to create a `post` object. 
+
+    - this method will automatically handle the creation of a `post` object by calling the `Serializer.create` method, which will trigger the creation of a `post` object in the database. finally, we return a response with the newly created post.
