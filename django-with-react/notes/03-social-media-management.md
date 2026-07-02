@@ -45,3 +45,9 @@ Post feature requirements
 - next, we modify our `core/user/models.py` file to remove the `get_object_by_public_id` method and subclass `UserManager`
 
 
+## Writing the AbstractSerializer
+
+- all the objects sent back as a response in our API will contain the `id`, `created`, and `updated` fields. in order not to write these fields all over again on every `ModelSerializer`, we just create an `AbstractSerializer` class.
+    - in the `abstract/` directory, we create a file `serializer.py`.
+    - then we subclass the `UserSerializer` class with the `AbstractSerializer` class in `core/user/serializers.py` and remove `id`, `created`, and `updated`.
+
