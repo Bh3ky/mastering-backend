@@ -82,3 +82,16 @@ Core feautes:
     - `RESTRICT` - raises `RestrictedError` under certain conditions.
 
     - `PROTECT` - prevents the foreign key object from being deleted as long as there are objects linked to the foreign key object.
+
+
+## Writing the Post serializer
+
+- the `Post` serializer will contain the fields needed to create a post when making a request on the endpoint. 
+- in the `post` directory, add `serializer.py` file
+
+- Django through `SlugRelatedField` field type handles the fields and relationship generation for us.
+    - used to represent the target of the relationship using a field on the target, thus when creating a post, `public_id` of the author will be passed in the body of the request so that the user can be identified and linked to the post
+
+- the `validated_author` method checks validation for the `author` field. 
+    - here we are making sure that the user creating the post is the same user as in the `author` field.
+    - a context dictionary is available in every serializer. usually contains the request object that we can use to make some checks.
