@@ -212,3 +212,18 @@ two methods:
 
 - we create a new app called `auth` which contains the logic for login, logout, etc
     - inside this app we add `serializers/` and `viewsets/` folders
+
+
+## Adding the login feature
+
+- the login feature requires the email or username with the password. in order to do so we use our `djangorestframework-simplejwt` package, which provides a serializer called `TokenObtainPairSerializer`.
+    - we write a serializer to check for user authentication but also return a response containing access and refresh tokens. 
+        - to do this we have to rewrite the validate method from `TokenObtainPairSerializer` class.
+- add a `login.py` file inside the `core/auth/serializer` directory.
+
+- NB: we use `super()`, which is a built-in method in Python that returns temporary object that can be used to access the class methods of the base class. basically, we are surcharging the `validate` method from the `TokenObtainPairSerializer` class to adapt it to our needs.
+
+- after this we add a `LoginViewSet`. since we are not directly interacting with a model here, we will just use the `viewsets.ViewSet` class
+
+- the login features works for now but it's not perfect. the access token expires in 5 minutes. we need to fix this????
+
