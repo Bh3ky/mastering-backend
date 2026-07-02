@@ -51,3 +51,11 @@ Post feature requirements
     - in the `abstract/` directory, we create a file `serializer.py`.
     - then we subclass the `UserSerializer` class with the `AbstractSerializer` class in `core/user/serializers.py` and remove `id`, `created`, and `updated`.
 
+## Writing the AbstractViewSet
+
+- why do we need an abstract `ViewSet`?? because there will be repeated declarations as to the ordering and the filtering. 
+    - now we create a class that contains the default values.
+    - in the `core/abstract/` we create a file `viewsets.py.
+
+- then we add the `AbstractViewSet` class to the code where `ModelViewSets` is actually called. directory `core/user/viewsets.py`
+
