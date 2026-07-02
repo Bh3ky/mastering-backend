@@ -227,3 +227,34 @@ two methods:
 
 - the login features works for now but it's not perfect. the access token expires in 5 minutes. we need to fix this????
 
+
+## Refresh logic
+
+- `djangorestframework-simplejwt` provides a refresh logic feature. 
+- since we have been generating refresh tokens and returning them as responses every time registration or login is completed, we will just inherit the class from `TokenRefreshView` and transform it into a viewset.
+
+    - add `refresh.py` file inside `auth/viewsets`
+
+
+
+**Question: what is a JWT??**
+- a **JSON Web Token (JWT)** is a compact, signed token that provides a user's identity after they authenticate.
+
+**Question: what is Django Rest Framework??**
+- Django framework for building RESTful APIs
+
+**Question: what is a model??**
+- a model defines how data is stored in the database.
+
+**Question: what is a serializer??**
+- a serializer converts between Python objects and JSON while also validating incoming data.
+
+**Question: what is a viewset??**
+- defines the business logic for API endpoints [essentially the API controlller].
+
+**Question: what is a router??**
+- a router automatically maps URLs to ViewSet methods
+
+**Question: what is a refresh token??**
+- a refresh token is used to obtain a new access token adter the current access token expires.
+
