@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -9,7 +11,7 @@ from core.post.serializers import PostSerializer
 
 class PostViewSet(AbstractViewSet):
     http_method_names = ["post", "get", "put", "delete"]
-    permission_class = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated,]
     serializer_class = PostSerializer
 
     def get_queryset(self):
@@ -27,3 +29,7 @@ class PostViewSet(AbstractViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def perform_destroy(self, instance):
+        instance.deleted_at = timezone.now()
+        instance.save(update_fields=["deleted_at", "updated"])
