@@ -127,3 +127,10 @@ Core feautes:
 ```text
 GET https://api.example.org/accounts/?limit=100&offset=400
 ```
+
+## Rewriting the Post serialized object
+
+- in our current code, the `author` field accepts `public_id` and returns `public_id`. this does work, but it can be a little bit difficult to identify the user.
+
+- the `to_representation()` method takes the object instance that requires serialization and returns a primitive representation [returns a built-in Python data types - the exact types which can be handled depend on the render class we configure for our API].
+
