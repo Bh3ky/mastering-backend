@@ -152,3 +152,9 @@ in our project, we have three types of users:
 
     - in the methods we have written so far, we are checking that anonymous users can only make the `SAFE_METHODS` requests - `GET`, `OPTIONS`, and `HEAD`.
     - and for other users, we are making sure that they are always authenticated before continuing.
+
+## Deleting and updating posts
+
+- to add these functionalities, we don't need to write serializer or viewset, as the methods for deletion [`destroy()`], and updating [`update()`] are already available by default in the `ViewSet` class.
+- we just rewrite the `update` method on `PostSerializer` to ensure that the edited field is set to `True` when modifying a post.
+    - add the `PUT` and `DELETE` methods to `http_methods` of `PostViewSet`
