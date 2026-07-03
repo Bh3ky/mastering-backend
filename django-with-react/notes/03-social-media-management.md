@@ -134,3 +134,21 @@ GET https://api.example.org/accounts/?limit=100&offset=400
 
 - the `to_representation()` method takes the object instance that requires serialization and returns a primitive representation [returns a built-in Python data types - the exact types which can be handled depend on the render class we configure for our API].
 
+## Adding permissions
+
+- authentication is an action of verifying the identity of a user, authorization is an action of checking whether the user has the rights or privileges to perform an action. 
+
+in our project, we have three types of users:
+
+- anonymous user (user with no account on the API and can't be identified)
+- registered and active users (user has an account on the API and can easily perform some actions)
+- admin user (user with all the rights and privileges)
+
+- on our platform we want the anonymous users to be able to read the posts on the API without necessarily being authenticated. thus we need to write a custom permission.
+
+- NB: Django permissions usually work on two levels: on the overall endpoint (`has_permission`) and on an object level (`has_object_permission`). 
+
+- great way to write permissions is to always deny by default; that is why we always return `False` at the end of each permission method.
+
+    - in the methods we have written so far, we are checking that anonymous users can only make the `SAFE_METHODS` requests - `GET`, `OPTIONS`, and `HEAD`.
+    - and for other users, we are making sure that they are always authenticated before continuing.
