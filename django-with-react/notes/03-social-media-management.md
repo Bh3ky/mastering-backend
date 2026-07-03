@@ -115,3 +115,15 @@ Core feautes:
     - the `create` method, which is the `ViewSet` action executed on `POST` requests on the endpoint linked to `ViewSet`. simply pass the data to the serializer declared on `ViewSet`, validate the data, and then call the `perform_create` method to create a `post` object. 
 
     - this method will automatically handle the creation of a `post` object by calling the `Serializer.create` method, which will trigger the creation of a `post` object in the database. finally, we return a response with the newly created post.
+
+
+## Adding the Post route
+
+- in the `routers.py` we add the new endpoint `/post/`.
+
+- DRF provides a way to paginate responses and a default pagination limit size in the `settings.py`
+- we can also use the `offset` parameter precisely to where we want the result to start from:
+
+```text
+GET https://api.example.org/accounts/?limit=100&offset=400
+```
