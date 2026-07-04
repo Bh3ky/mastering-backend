@@ -1,5 +1,6 @@
 from django.utils import timezone
 
+from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -33,3 +34,28 @@ class PostViewSet(AbstractViewSet):
     def perform_destroy(self, instance):
         instance.deleted_at = timezone.now()
         instance.save(update_fields=["deleted_at", "updated"])
+
+    #TODO: add like action
+    @action(methods=['post'], detail=True)
+    def like(self, request, *args, **kwargs):
+        post = self.get_object()
+        user = self.request.user
+
+        user.like(post)
+
+        serialiazer = self.serializer_class(post)
+
+        return Response(serialiazer.data, status=status.HTTP_200_OK)
+    
+    #TODO: add unlike action
+    @action(methods=['post'], detail=True)
+    def remove_like(self, request, *args, **kwargs):
+        post = self.get_object()
+        user = self.request.user
+
+        user.remove_like(post)
+
+        serializer = self.serializer_class(post)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    

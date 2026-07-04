@@ -183,3 +183,50 @@ This is a many-to-many relationship.
 
 ![new User table structure](image-1.png)
 
+## Adding the `like`, `remove_like`, and `has_liked` methods
+
+Methods:
+
+- `like()` method is used for liking a post if it hasn't been done yet.
+    - will use the `add()` method from the models. also use `ManyToManyField to link a post to a user.
+
+- `remove_like()` method is used for removing a like from a post.
+    - will use `remove` method from the models. also use `ManyToManyField` to unlink a post from a user.
+
+- `has_liked()` method is used for returning `True` if the user has liked a post, else `False`.
+
+Then we add `likes_count` and `has_liked` fields to `PostSerializer`.
+
+## Adding the `likes_count` and `has_liked` fields to `PostSerializer`
+
+- instead of adding fields such as `likes_count` in the `Post` models and generating more fields in the database, we can directly manage it on `PostSerializer`.
+
+- the `Serializer` class in Django provides ways to create the `write_only` values that will be sent on the response.
+
+- we use the `serializers.SerializerMethodField()` field, allows us to write a custom function that returns a value we want to attribute to this field. 
+- the syntax of the method is `get_field` where `field` is the name of the field declared on the serializer.
+    - for `liked` we have the `get_liked` method, and for `likes_count`, we have `get_likes_count` method.
+
+## Adding `like` and `dislike` actions to `PostViewSet`
+
+- DRF provides a decorator called `action`. this decorator helps make methods on a `ViewSet` class routable. the `action` decorator takes two arguments:
+
+    1. `detail` - if this argument is set to `True`, the route to this action will require a resource lookup field; in most cases, this will be the ID of the resource.
+    2. `method` - this is a list of the methods accepted by the action. 
+
+For each action added, we are writing the logic following these steps:
+
+1. first, we retrieve the concerned post on which we want to call the like or remove the like action. the `self.get_object()` method will automatically return the concerned post using the ID passed to the URL request, thanks to the `detail` attribute being set to `True`.
+
+2. second, we also retrieve the user making the request from the `self.request object`. this is done so that we can call the `remove_like` or `like` method added to the `User` model.
+
+3. finally, we serialize the post using the `Serializer` class defined on `self.serializer_class` and return a response.
+
+- with this added to `PostViewSets`, DRF routers will automatically create new routes for this resource. 
+
+    - like post with the endpoint: `api/post/post_pk/like/`.
+    - remove the like from a post with endpoint: `api/post/post_pk/remove_like/`.
+
+**Question: how do we paginate the results of an API response??**
+
+- by splitting a large queryset/list into smaller chunks and returning metadata so the frontend knows how to request the next chunk.
