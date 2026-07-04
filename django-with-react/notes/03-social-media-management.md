@@ -158,3 +158,28 @@ in our project, we have three types of users:
 - to add these functionalities, we don't need to write serializer or viewset, as the methods for deletion [`destroy()`], and updating [`update()`] are already available by default in the `ViewSet` class.
 - we just rewrite the `update` method on `PostSerializer` to ensure that the edited field is set to `True` when modifying a post.
     - add the `PUT` and `DELETE` methods to `http_methods` of `PostViewSet`
+
+- NB: ended up implementing the soft delete feature instead.
+
+## Adding the Like feature
+
+- here we will be adding favouriting to our social media application.
+- will also add data to count the number of likes a post has receieved and check whether a current user making the request has liked a post. 
+
+Implemented in four steps:
+
+1. add a new `posts_liked` field to the `User` model
+2. write methods o nthe `User` model to like and remove a like from a post. will also add a method to check whether the user has liked a post.
+3. add `likes_count` and `has_liked` to `PostSerializer`
+4. add endpoints to like and dislike a post.
+
+**Adding the `posts_liked` field to the User model
+
+- the `posts_liked` field will contain all the posts liked by a user. the relationship between the `User` model and the `Post` model concerning the Like feature is:
+    - a user can like many posts
+    - a post can be liked by many users
+
+This is a many-to-many relationship.
+
+![new User table structure](image-1.png)
+
