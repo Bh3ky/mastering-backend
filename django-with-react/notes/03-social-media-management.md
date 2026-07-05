@@ -230,3 +230,22 @@ For each action added, we are writing the logic following these steps:
 **Question: how do we paginate the results of an API response??**
 
 - by splitting a large queryset/list into smaller chunks and returning metadata so the frontend knows how to request the next chunk.
+
+## Writing the comment serializer
+
+- the comment serializer will help with validation and content creation. 
+
+- write `CommentSerializer` in the `/core/comment/serializers.py`
+
+To create a comment, we need three fields:
+    - `public_id` of the author
+    - `public_id` of the post
+    - the body
+- also add validation methods for the `author` field.
+
+- in `validate_author` we block users from creating comments for other users.
+- `to_representation` method modifies the final object by adding information about the author.
+
+## Nesting routes for the comment resource
+
+- 
