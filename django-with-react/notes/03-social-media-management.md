@@ -241,6 +241,7 @@ To create a comment, we need three fields:
     - `public_id` of the author
     - `public_id` of the post
     - the body
+
 - also add validation methods for the `author` field.
 
 - in `validate_author` we block users from creating comments for other users.
@@ -248,4 +249,4 @@ To create a comment, we need three fields:
 
 ## Nesting routes for the comment resource
 
-- 
+- to create, update, or delete comments, we need to add `ViewSet`.
