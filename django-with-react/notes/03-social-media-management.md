@@ -290,3 +290,11 @@ To create a comment, we need three fields:
     - then we retrieve the object and check for permissions. if everything is goos, we return the object
 
 - write the `create` method where we pass `request.data` to the `ViewSet` serializer - `CommentSerializer` - and try to validate the serializer. if everything is good, we move to create a new object - a new comment - based on the serializer from `CommentSerializer`.
+
+## Updating a comment
+
+- updating a comment is an action that can only be done by the author of the comment. the user should only be able to update the body field of the comment and can't modify the author value.
+
+## Deling a comment
+
+- deleting a comment is an action that can only be performed by the author of the post, the author of the comment, and a superuser.
