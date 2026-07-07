@@ -1,17 +1,30 @@
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
 
 from core.abstract.serializers import AbstractSerializer
 from core.user.models import User
 from core.user.serializers import UserSerializer
 from core.comment.models import Comment
-from core.post.models import Post
 
 # TODO: write the CommentSerializer class
 
 class CommentSerializer(AbstractSerializer):
     author = serializers.SlugRelatedField(read_only=True, slug_field='public_id')
     post = serializers.SlugRelatedField(read_only=True, slug_field='public_id')
+
+    # method to validate the post field. NB: value shouldn't be editable on `PUT` requests
+    def validate_post(self, value):
+        if self.instance:
+            return self.instance.post
+        return value
+    
+    # method for passing the edited value
+    def update(self, instance, validated_data):
+        if not instance.edited:
+            validated_data["edited"] = True
+
+        instance = super().update(instance, validated_data)
+
+        return instance
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
