@@ -44,3 +44,10 @@ Testing is typically classified into three categories:
 - alwways a good idea to start writing tests for the models in a Django project.
     - helps to make sure that methods or attributes on the model are well represented in the database.
 
+## Writing tests for the User model
+
+- add a new file `tests.py` inside the `core/user` directory
+
+What is a decorator?
+
+- it a funtion which takes another function as its argument and returns another function. `@pytest.mark.django_db` gives us access to the Django database. 
