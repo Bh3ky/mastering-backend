@@ -39,4 +39,8 @@ Testing is typically classified into three categories:
 - software development practices that focus on writing unit test cases before developing the feature.
     - ensures optimized code, application of design patterns and better architecture, helps developers understand the business requirements, and makes the code flexible and easier to maintain.
 
-## Writing first test
+## Writing tests for Django models
+
+- alwways a good idea to start writing tests for the models in a Django project.
+    - helps to make sure that methods or attributes on the model are well represented in the database.
+
