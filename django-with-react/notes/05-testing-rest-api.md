@@ -95,3 +95,7 @@ What is a fixture?
     - anonymous users
 
 - each type of user has different permissions on the `post` resource.
+
+## Writing tests for CommentViewSet
+
+- 

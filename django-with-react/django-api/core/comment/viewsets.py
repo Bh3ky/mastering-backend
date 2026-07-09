@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from core.abstract.viewsets import AbstractViewSet
 from core.comment.models import Comment
@@ -9,7 +9,7 @@ from core.post.models import Post
 # TODO: comment viewset
 class CommentViewSet(AbstractViewSet):
     http_method_names = ["post", "get", "put", "delete"]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = CommentSerializer
 
     def get_queryset(self):
