@@ -62,4 +62,26 @@ What is a fixture?
 
 - create `fixtures/` in the `core/` directory. then inside the `core/post/` directory inside the `tests.py` file we then test the creation of a post.
 
+## Writing tests for the Comment model
 
+- create a new file `post.py` inside the `core/fixtures` directory.
+- this file contains the fixture of a post which is needed to create a comment. Pytest allows us to inject fixtures into other fixtures. in this instance, the `post` fixture needs a `user` fixture.
+
+- then we write the test for comment creation inside the `core/comment` directory.
+
+## Writing tests for Django viewsets
+
+- viewsets or endpoints are the interfaces of the business logic that the external clients will use to fetch data and create, modify, or delete data. 
+
+- great habit to have tests to make sure that the whole system, starting from a request to the database, is working as intended.
+
+- first, we need to configure the Pytest environment to use the API client from DRF.
+    - API client is a class that handles different HTTP methods, as well as features such as authentication in testing, which can be very helpful for direct authentication without a username and password to test some endpoints. 
+
+- we create a file `conftest.py` at the root of the project.
+
+## Writing tests for authentication
+
+- create a file `tests.py` inside the `core/auth` directory. here instead of writing test functions directly, we write a class that will contain the testing methods.
+
+- NB: within the `test_refresh` method, we log in to get a refresh token to make a request to get a new access token.
