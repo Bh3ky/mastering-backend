@@ -98,4 +98,6 @@ What is a fixture?
 
 ## Writing tests for CommentViewSet
 
-- 
+- done
+
+## Writing tests for the UserViewSet class
