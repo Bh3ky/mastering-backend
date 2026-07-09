@@ -85,3 +85,13 @@ What is a fixture?
 - create a file `tests.py` inside the `core/auth` directory. here instead of writing test functions directly, we write a class that will contain the testing methods.
 
 - NB: within the `test_refresh` method, we log in to get a refresh token to make a request to get a new access token.
+
+## Writing tests for PostViewSet
+
+- follow the DRY rule.
+
+- `PostViewSet` handles requests for two types of users:
+    - authenticated users
+    - anonymous users
+
+- each type of user has different permissions on the `post` resource.
