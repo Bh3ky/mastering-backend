@@ -50,4 +50,16 @@ Testing is typically classified into three categories:
 
 What is a decorator?
 
-- it a funtion which takes another function as its argument and returns another function. `@pytest.mark.django_db` gives us access to the Django database. 
+- it a funtion which takes another function as its argument and returns another function. `@pytest.mark.django_db` gives us access to the Django database.
+
+## Writing tests for the Post model
+
+- to create a model, we need to have a user object ready. this will also be the same for the `Comment` model. to avoid repetition, we will simply write fixtures.
+
+What is a fixture?
+
+- it is a function that will run before each test function to which it is applied. here, the fixture will be used to feed some data to the tests.
+
+- create `fixtures/` in the `core/` directory. then inside the `core/post/` directory inside the `tests.py` file we then test the creation of a post.
+
+
