@@ -216,3 +216,71 @@ function Component({ data }) {
 
 - in the code above, we use `useMemo` to memoize the result of an expensive calculation that we do with the data prop passed to the component. because `useMemo` only recalculates the value if the data prop changes, we can avoid making the expensive calculation every time the component is re-rendered, which can improve the performance of our application. 
 
+6. **Handling forms - controlled components and uncontrolled components**
+
+Controlled component is a component in React that is controlled by the state of the parent component i.e., the value of the input field is determined by the value prop passed to the component, and any changes to the input are handled by the parent compoent. 
+
+Example: 
+
+```jsx
+import React, { useState } from 'react';
+
+function Form() {
+    // use useState to manage the state of the input field
+    const [inputValue, setInputValue] = useState('');
+
+    // function to handle changes to the input field
+    function handleChange(event) {
+        setInputValue(event.target.value);
+    }
+    return (
+        <form>
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            value={inputValue}
+            onChange={handleChange}
+          />
+        </form>
+    );
+}
+```
+
+- in the above code snippet, we used `useState` to manage the state of the input field and the `handleChange` function to update the state when the input is changed. because the value of the input is determined by the `inputValue` state variable, the input is considered to be a controlled component. 
+
+Uncontrolled component is a component in React that manages its own state internally i.e., the value of the input field is determined by the `defaultValue` prop passed to the component, and any changes to the input are handled by the component itself. 
+
+Example:
+
+```jsx
+import React from 'react';
+
+function Form() {
+    // use a ref to manage the state of the input field
+    const inputRef = React.useRef();
+
+    //function to handle the form submission
+    function handleSubmit(event) {
+        event.preventDefault();
+        // do something with the input value here
+        // e.g., sending the input value to an API or saving it to the database.
+        sendInputValue(inputRef.current.value);
+        // clear the input after submitting
+        inputRef.current.value = '';
+    }
+    return (
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            defaultValue=""
+            ref={inputRef}
+          />
+        </form>
+    );
+}
+```
+
+- here, we use `ref` to manage the state of the input field and the `handleSubmit` function to handle the form submission. because the value of the input is determined by the `defaultValue` prop and managed internally by the component, the input is considered to be an uncontrolled component.
