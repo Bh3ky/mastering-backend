@@ -185,3 +185,34 @@ function Component() {
     );
 }
 ```
+
+- here, we use the `React.createContext` method to create a new context object, which we call `Context`. we then provide some initial data to the context by wrapping our top-level component in a `Context.Provider` component and passing the data as the value pop. finally, we use the `useContext` Hook in `Component` to access the data in the context and display it in the compent.
+
+5. **useMemo**
+
+- `useMemo` is a Hook in React that allows us to optimise the performance of the components by memoizing (caching) expensive calculations. it works by returning a memoized value that is only recalculated if one of the inputs to calculation changes.
+
+> memoization is a technique used to speed up programs by storing the results of expensive function calls and returning the cached result when the same inputs are given again. this can be useful for optimizing programs that make repeated calculations with the same input.
+
+Example:
+
+```jsx
+import React, { useMemo } from 'react';
+
+function Component({ data }) {
+    // use useMemo to memoize the expensive calculation
+    const processData = useMemo(() => {
+        // do some expensive calculation with the data
+        return expensiveCalculation(data);
+    }, [data]);
+    return (
+        <div>
+          {/* Use the processed data in the component */}
+          <p>{processedData.message}</p>
+        </div>
+    );
+}
+```
+
+- in the code above, we use `useMemo` to memoize the result of an expensive calculation that we do with the data prop passed to the component. because `useMemo` only recalculates the value if the data prop changes, we can avoid making the expensive calculation every time the component is re-rendered, which can improve the performance of our application. 
+
