@@ -1,11 +1,34 @@
 import React, { useState } from "react";
 import { format } from "timeago.js";
-import { LikeFilled, CommentOutlined, LikeOutline, LikeOutlined } from "@ant-design/icons";
+import { LikeFilled, CommentOutlined, LikeOutline, LikeOutlined, MoreOutlined } from "@ant-design/icons";
 import { Image, Card, Dropdown } from "react-bootstrap";
+import { Button, Modal, Form } from "react-bootstrap";
+import Toaster from "../Toaster";
 import { randomAvatar } from "../../utils";
 import axiosService from "../../helpers/axios";
+import { getUser } from "../../hooks/user.actions";
+import UpdatePost from "./UpdatePost";
+import { Link } from "react-router-dom";
+
+// TODO: add component passed to the dropdown component as the title
+const MoreToggleIcon = React.forwardRef(({ onClick }, ref) => (
+    <Link
+        to="#"
+        ref={ref}
+        onClick={(e) => {
+            e.preventDefault();
+            onClick(e);
+        }}
+    >
+        <MoreOutlined />
+    </Link>
+))
 
 function Post(props) {
+    const [showToast, setShowToast] = useState(false);
+
+    const user = getUser();
+
     const { post, refresh } = props;
     const handleLikeClick = (action) => {
         axiosService
@@ -15,6 +38,17 @@ function Post(props) {
             })
             .catch((err) => console.error(err));
     };
+
+    const handleDelete = () => {
+        axiosService
+            .delete(`/post/${post.id}/`)
+            .then(() => {
+                setShowToast(true);
+                refresh();
+            })
+            .catch((err) => console.error(err));
+    };
+
     return (
         <>
             <Card className="rounded-3 my-4">
@@ -38,6 +72,24 @@ function Post(props) {
                                 </p>
                             </div>
                         </div>
+                        {user.name === post.author.name && (
+                            <div>
+                                <Dropdown>
+                                    <Dropdown.Toggle as={MoreToggleIcon}>
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <UpdatePost post={post}
+                                            refresh={refresh} />
+                                        <Dropdown.Item
+                                            onClick={handleDelete}
+                                            className="text-danger"
+                                        >
+                                            Delete
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </div>
+                        )}
                     </Card.Title>
                     <Card.Text>{post.body}</Card.Text>
                     <div className="d-flex flex-row">
@@ -97,6 +149,13 @@ function Post(props) {
                     </div>
                 </Card.Footer>
             </Card>
+            <Toaster
+                title="Post!"
+                message="Post deleted"
+                type="danger"
+                showToast={showToast}
+                onClose={() => setShowToast(false)}
+            />
         </>
     );
 }
