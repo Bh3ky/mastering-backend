@@ -29,7 +29,7 @@ function Post(props) {
 
     const user = getUser();
 
-    const { post, refresh } = props;
+    const { post, refresh, isSinglePost } = props;
     const handleLikeClick = (action) => {
         axiosService
             .post(`/post/${post.id}/${action}/`)
@@ -109,6 +109,15 @@ function Post(props) {
                             <small>{post.likes_count} like</small>
                         </p>
                     </div>
+                    {!isSinglePost && (
+                        <p className="ms-1 fs-6">
+                            <small>
+                                <Link>
+                                    {post.comments_count} comments
+                                </Link>
+                            </small>
+                        </p>
+                    )}
                 </Card.Body>
                 <Card.Footer className="d-flex bg-white w-50 justify-content-between border-0">
                     <div className="d-flex flex-row">
@@ -132,21 +141,22 @@ function Post(props) {
                             <small>Like</small>
                         </p>
                     </div>
-                    {/* TODO: add comment icon here */}
-                    <div className="d-flex flex-row">
-                        <CommentOutlined
-                            style={{
-                                width: "24px",
-                                height: "24px",
-                                padding: "2px",
-                                fontSize: "20px",
-                                color: "#C4C4C4",
-                            }}
-                        />
-                        <p className="ms-1 mb-0">
-                            <small>Comment</small>
-                        </p>
-                    </div>
+                    {isSinglePost && (
+                        <div className="d-flex flex-row">
+                            <CommentOutlined
+                                style={{
+                                    width: "24px",
+                                    height: "24px",
+                                    padding: "2px",
+                                    fontSize: "20px",
+                                    color: "#C4C4C4",
+                                }}
+                            />
+                            <p className="ms-1 mb-0">
+                                <small>Comment</small>
+                            </p>
+                        </div>
+                    )}
                 </Card.Footer>
             </Card>
             <Toaster

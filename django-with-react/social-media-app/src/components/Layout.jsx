@@ -8,6 +8,7 @@ import Toaster from './Toaster';
 export const Context = createContext("unknown");
 
 function Layout(props) {
+    const { hasNavigationBack } = props;
     const navigate = useNavigate();
     const [toaster, setToaster] = useState({
         title: "",
@@ -17,8 +18,6 @@ function Layout(props) {
     });
 
     const value = useMemo(() => ({ toaster, setToaster }), [toaster]);
-
-    const { hasNavigationBack } = props;
 
     return (
         <Context.Provider value={value}>

@@ -5,6 +5,7 @@ import Registration from './pages/Registration';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import './App.css';
+import SinglePost from './pages/SinglePost';
 
 function App() {
   return (
@@ -14,6 +15,12 @@ function App() {
           <Home />
         </ProtectedRoute>
       } />
+      <Route path='/post/:postId/' element={
+        <ProtectedRoute>
+          <SinglePost />
+        </ProtectedRoute>
+        }
+      />
       <Route path='/login/' element={<Login/>} />
       <Route path='/register/' element={<Registration />} />
     </Routes>
