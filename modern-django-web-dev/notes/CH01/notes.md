@@ -363,3 +363,22 @@ asyncio.run(main())
 ASGI is a standard communication specification for Python that connects web servers to asynchronous frameworks and applications.
 
 - handles multiple concurrent events, WebSockets, and HTTP protocols without blocking.
+
+The ASGI application is an asynchronous callable (coroutine) that takes three parameters: `send`, `receive`, and `scope`.
+
+- the `send` and `receive` parameters are asynchronous callables that enable the application to send and receive event messages to and from the client, respectively.
+- the scope parameter is a `dict` containing details of a specific connection provided by the server, such as the protoco, headers etc.
+
+Note: the `asgiref` library is a core dependency. it makes Django add ASGI features like asynchronous workflows and nonblocking I/O operations in the application to achieve better performance and scalability.
+
+- one of the main features of `asgiref` is the `SyncToAsync` wrapper, which allows the sychronous code in asynchronous context without any rewrite. 
+
+## Django Overview
+
+**Batteries Included**
+
+Django has its own templating system (Django Template Language), object relation model (Django ORM), and regex-based URL dispatcher.
+
+**Utility Apps**
+
+`contrib` package provides a robust admin and authentication system, built-in security mechanism to prevent CSRF and SQL injection attacks etc.

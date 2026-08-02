@@ -1,11 +1,19 @@
-from wsgiref.simple_server import make_server
+import uvicorn
 
 
-def wsgiapp(environ, start_response):
-    host=environ.get('HTTP_HOST')
-    start_response("200 OK", [("Content-type", "text/html")])
-    ret = [(f"<h2>Hello World App on WSGI Server Running at:{host}</h2>".encode())]
-    return ret
+async def app(scope, receive, send):
+    await send({
+        'type': 'http.response.start',
+        'status': 200,
+        'headers': [
+            [b'content-type', b'text/html'],
+        ],
+    })
 
-server = make_server('localhost', 8000, wsgiapp)
-server.serve_forever()
+    await send({
+        'type': 'http.response.body',
+        'body': b'<h2>Hello World App on ASGI Server</h2>',
+    })
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", port=5000, log_level="info")
