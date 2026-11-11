@@ -62,3 +62,22 @@ The `urls.py` module in the project package is referred to as URLCONF.
 - the `include()` function from `django.urls` module does this job.
 
 **Path Parameters**
+
+As we know Django server provides the HttpRequest object as a mandatory argument to a view function. We can declare a view with additional parameters that can be fetched from the urlpatterns.
+
+- Example: a `user()` function as a view in the app, with name as a string parameter. the funtion should insert the received string in the Welcome message to be returned as the response.
+
+    - the function needs to be mapped with a URL router `user/` in the app's URL pattern list.
+    - the route needs to have a variable part corresponding to the parameter of the view function and must be put inside angular brackets < and > for Django to capture the value and pass to the function. 
+        - in this instance the URL route should be `user/<name>/` and mapped with the `views.user` function.
+
+Different types of path parameters can be passed to the function. The parameter inside angular brackets is of `str` type. Some of these types need an appropriate path converter prefix e.g., `<int:userID>`, which lets Django interpret the parameter as an integer.
+
+
+| Path Converter | Description |
+| --- | --- |
+| str | Matches any non-empty string |
+| int | To read an integer parameter from the URL, we use int: inside the angular brackets e.g., `<int:userID>`. any non-negative integer may be present. |
+| slug | A slug is a string that can only include characters, numbers, dashes, and underscores. E.g., `<slug:post:title>`. |
+| uuid | This converter matches a formatted UUID. As a convention, to prevent multiple URLs from mapping to the same page, dashes must be included and letters must be lowercase |
+| path | This converter matches any non-empty string, including the path separator, `/`, so as to allow us to match against a complete URL path rather than a segment of a URL path as with str. 
