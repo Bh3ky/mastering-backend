@@ -81,3 +81,25 @@ Different types of path parameters can be passed to the function. The parameter 
 | slug | A slug is a string that can only include characters, numbers, dashes, and underscores. E.g., `<slug:post:title>`. |
 | uuid | This converter matches a formatted UUID. As a convention, to prevent multiple URLs from mapping to the same page, dashes must be included and letters must be lowercase |
 | path | This converter matches any non-empty string, including the path separator, `/`, so as to allow us to match against a complete URL path rather than a segment of a URL path as with str. 
+
+**Serving Web Pages**
+
+The view function returns its response in the form of an `HttpResponse` object, with a string a its content. In addition, other HTTP headers may be included in the constructor.
+
+- by default, the `Content_Type` header is `text/html`/. any HTML tags included in the response string are parsed by the browser.
+- we cna set it to any other type such as `application/json` if we want to use JSON response [more suitable for APIs].
+
+Instead of passing raw HTML strings, Django allows us to serve an HTML page as the response.
+
+- `render()` function defined in the `django.shortcuts` module is used for the purpose.
+- Django can render a static web page as well as a web page with dynamic content which is called a template.
+
+    - to render a web page, the Django server checks if the page is available in any of the directories in the DIRS attribute of the TEMPLATES setting. 
+        - we can add templates in the template folder at the root project folder titled BASE_DIR.
+
+`render()` function takes two arguments which are:
+
+- `HttpRequest` object that the view receives from the server.
+- contents of the HTML page as the second argument, which is returned as the `HttpResponse`.
+
+The `render()` function can also have a third argument called context - a dictionary object whose values are inserted in the template tags placed inside the HTML code.
