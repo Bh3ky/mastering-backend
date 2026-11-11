@@ -103,3 +103,10 @@ Instead of passing raw HTML strings, Django allows us to serve an HTML page as t
 - contents of the HTML page as the second argument, which is returned as the `HttpResponse`.
 
 The `render()` function can also have a third argument called context - a dictionary object whose values are inserted in the template tags placed inside the HTML code.
+
+## Admine Site
+
+It is a fully customizable, automatic admin interface. Suitable for organisation's internal management use
+
+- the admin app is automatically added to the project as a result of the `startproject` command.
+- the admin interface depends on the `django.contrib.admin` app.
