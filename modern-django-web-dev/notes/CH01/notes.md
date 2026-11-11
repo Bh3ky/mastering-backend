@@ -70,7 +70,7 @@ Browser
 **Differences between static vs. dynamic websites**
 
 - on static websites every visitor receives the same file `index.html` no database, no login, no user-specific content.
-- on dynamic websites the server generates th response.
+- on dynamic websites the server generates the response.
 
 > A backend framework like Django exists to receieve HTTP requests, execute application logic, optionally interact with data sources, and return HTTP responses.
 
@@ -81,7 +81,7 @@ Browser
 it is an application layer protocol built on top of a TCP connection. 
 - HTTP = Hypertext Transfer Protocol
 
-what problem does HTTP solve? suppose we write a backend for an event management application and the frontend need to send requests for things like:
+What problem does HTTP solve? suppose we write a backend for an event management application and the frontend need to send requests for things like:
 
 - showing all the events
 - creating a new event
