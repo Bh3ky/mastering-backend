@@ -1,0 +1,125 @@
+# ==========================
+# Python
+# ==========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# ==========================
+# Virtual Environments
+# ==========================
+.venv/
+venv/
+env/
+ENV/
+
+# ==========================
+# Environment Variables
+# ==========================
+.env
+.env.*
+!.env.example
+
+# ==========================
+# Django
+# ==========================
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Media uploads
+media/
+
+# Collected static files
+staticfiles/
+
+# ==========================
+# Migrations (optional)
+# Uncomment if you're creating a reusable app.
+# For normal Django projects, keep migrations in Git.
+# ==========================
+# **/migrations/
+# !**/migrations/__init__.py
+
+# ==========================
+# Testing & Coverage
+# ==========================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.cache/
+
+# ==========================
+# Type Checkers & Linters
+# ==========================
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
+
+# ==========================
+# Jupyter
+# ==========================
+.ipynb_checkpoints/
+
+# ==========================
+# Build & Distribution
+# ==========================
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+pip-wheel-metadata/
+
+# ==========================
+# VS Code
+# ==========================
+.vscode/
+
+# ==========================
+# PyCharm
+# ==========================
+.idea/
+
+# ==========================
+# macOS
+# ==========================
+.DS_Store
+
+# ==========================
+# Windows
+# ==========================
+Thumbs.db
+Desktop.ini
+
+# ==========================
+# Logs
+# ==========================
+logs/
+*.log
+
+# ==========================
+# Temporary Files
+# ==========================
+*.swp
+*.swo
+*~
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Books
+books/
+
+# SQLite databases
+*.sqlite3
+*.db
