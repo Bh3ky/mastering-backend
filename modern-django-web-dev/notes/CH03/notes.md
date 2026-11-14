@@ -6,15 +6,15 @@ Instead of interacting with the database with raw SQL queries, Django recommends
 
 **Objectives**
 
-- [] DB-API
-- [] ORM
-- [] Database configuration
-- [] Model class
-- [] Migrations
-- [] Django admin shell
-- [] CRUD operations
-- [] Model field types
-- [] Model relationships
+- [x] DB-API
+- [ ] ORM
+- [ ] Database configuration
+- [ ] Model class
+- [ ] Migrations
+- [ ] Django admin shell
+- [ ] CRUD operations
+- [ ] Model field types
+- [ ] Model relationships
 
 ## DB-API
 
@@ -70,3 +70,73 @@ We can also use another view function to fetch a specific record whosw `id` is c
 - the SQL query is prepared statement that substitutes the value of id receieved from the URL dispatcher in the `SELECT` statement.
 
     - NOTE: the record returned by the `fetchone()` method of the cursor is rendered as the responnse.
+
+**Limitations of DB-API**
+
+1. Need for proficient skills in SQL syntax
+2. Programming paradigm mismatch between Python and SQL.
+
+## Object-Relational Mapper (ORM)
+
+ORM API maps the object attributes with the structure of a table in a relational database. 
+
+- a table is called a relation.
+- each object corresponds to a row in the mapped table.
+- each attribute of the object corresponds to a column in the table.
+
+![alt text](image.png)
+
+To add a database support to our Django application, we need to:
+
+**Define a Model**
+
+Here, we define a class with its attributes matching with the desired structure of a table in the relational database.
+
+- this type of class is called a model and it subclasses the Model class defined in the `django.db.models` module.
+
+NOTE: `Meta` subclass adds metadata of the model.
+
+**Database configuration**
+
+This step is for configuring the type of database we want to use. We can do so in the `settings.py` file under the `DATABASES` section. 
+
+**Run migrations**
+
+Migrations are for applying the changes we make to our database i.e., propagating the models into the database schema.
+
+- `makemigrations` - helps Django detect if there have been new models added, or any existing models modified.
+
+## Django Admin Shell
+
+Command:
+
+```text
+python manage.py shell
+```
+
+To add objects:
+
+- use `create()` method which is available to the **QuerySet class**. 
+
+To retrieve objects:
+
+- the Django model class has a `Manager` attribute. Django adds a Manager with the same objects to every model class.
+- the `all()` method of the Manager class returns the QuerySet consisting of all the objects in the model.
+- `get()` method allows us to fetch a single object (corresponding to a single row in the mapped table).
+
+NOTE: `__str__()` method returns a string version of an object.
+
+To search for objects;
+
+- `filter()` method of the QuerySet corresponds to the SQL query `SELECT FROM` with the `WHERE` clause.
+
+We can also apply Field lookup operators as the parameters in the `filter()` method:
+
+1. contains - equivalent to `LIKE` in SQL
+2. range - equivalent to `BETWEEN` in SQL
+3. gte (greater than or equal to) - equivalent to `>=` in SQL
+4. lte (less than or equal to) - equivalent to `<=` in SQL
+
+**Updating the Objects**
+
+Django ORM
