@@ -139,4 +139,207 @@ We can also apply Field lookup operators as the parameters in the `filter()` met
 
 **Updating the Objects**
 
-Django ORM
+Django ORM makes modifying one or more attributes of one or more objects in a model super easy. 
+
+- the object Manager provides an `update()` method which accepts a variable number of keyword arguments, each specifying the new value of an attribute. 
+    - under the hood, the `update()` method executes the SQL `UPDATE` query. 
+
+```python
+Book.objects.all().update(publisher="Springer")
+```
+
+- SQL `UPDATE` query:
+
+```sql
+UPDATE Books SET publisher="Springer"
+```
+
+We can also increase the price. We import the `F()` function from `django.db.models` module.
+
+- it represents the value of a given model field. `F('price')` gives the value of the price field.
+
+```python
+from django.db.models import F
+Book.objects.all().update(price=F('price')+100)
+```
+
+> When modifying the data in the database via Python objects always have to include the `filter()` method so that only select attributes are modified.
+
+
+## Model Field Types
+
+While a Django model is a regular Python class, the behaviour of its attributes is very unique. It subclasses the Model class in the `django.db.models` module.
+
+- NB: the fields are the most crucial part of the model definition.
+
+An **attribute** in a model class is a class attribute (an attribute outside any of the instance methods) and is an instance of an appropriate Field class. 
+
+- for example: the attribute title, price, etc., are the instances of `CharField` and `IntegerField`.
+
+When we declare an instance of a model, Django stores the data in an internal structure of its own and only maps this structure with the field structure whenever we call the API methods such as `create()`, `save()`, `update()`, or `delete()`.
+
+1. **CharField**
+
+- used to store string attributes such as name, title, etc
+- for fairly large sized text, we can the `TextField` type.
+    - additional argument: `max_length`
+
+```python
+title = models.CharField(max_length=50)
+```
+
+- NB: while the value in the given `CharField` is a Python string, when migrated to the database, the corresponding field becomes a `VARCHAR` or equivalent data type supported by the corresponding database product.
+
+> the `TextField` attribute is mapped to SQL's `TEXT` field type.
+
+2. **IntegerField**
+
+- the attributes intended to store integer values such as EmployeeID, RollNo, etc., are defined to the of `IntegerField` type in a model.
+- `BigIntegerField` (64-bit integer), `SmallIntegerField`, `AutoField`, etc are the other field types in the category. 
+- we can set a certain field to be a primary key in a mapped table using a `primary_key` argument set to `True`.
+
+```python
+id = models.IntegerField(primary_key=True)
+```
+
+> the `IntegerField` is translated as `INT`, `INTEGER`.
+
+3. **FloatField**
+
+- a float Python object, which is an floating-point number, can be stored in an attribute of `FloatField` e.g., salary, price, etc
+
+```python
+salary = models.FloatField()
+```
+
+> a `FloatField` is conveniently mapped to `FLOAT` or `DOUBLE` field types in SQL.
+
+3. **BooleanField**
+
+- used to store bool types values (true or false). 
+
+```python
+isebook = models.BooleanField()
+```
+
+> most of RDMS products have a BOOLEAN field type, to which the `BooleanField` model attribute is mapped against.
+
+4. **DateField**
+
+- Python stores the date in the `datetime.date` object. the corresponding model attribute in Django is `DateField()`. 
+- this attribute type is often required in a model definition e.g., date of birth, date of appointment, date of publication, etc. 
+
+```python
+publication_date = models.DateField()
+```
+
+> this type of model attribute is translated to the `DATE` type of SQL, when migrated.
+
+![Django ORM types](image-1.png)
+
+## Types of Relationships
+
+In a relational database, a relation is a table that represents an entity. The attributes of the entity are the columns in the table, and each row is an instance of the entity. 
+
+One of the columns in a table is constrained to have a unique value and that's the primary key of the table.
+
+![Products and Customers table with primary key](image-2.png)
+
+When the primary key of one table appears as one of the fields in another table (which may have its own primary key) that is called the **foreign key**.
+
+Example:
+
+![Invoices table with foreign keys](image-3.png)
+
+- in the figure above, we can see that the Invoices table has CustomerID field (or column) which refers to the CustomerID of the Customers table [foreign key]
+- also, the ProductID column in the Invoices table is another foreign key as it refers to the primary key of Products table.
+
+**Types of relationships**:
+
+1. One-to-One Relationship
+
+- a connection between two data tables or entities where a single record in the first table matches only one record in the second table, and vice versa.
+- for example: college model and a principal model. 
+    - a college can have only one principal, and one person can be a principal of only one college.
+
+- translated into code, the College model can be described as follows:
+
+```python
+class College(Model):
+    CollegeID = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
+    strength = models.IntegerField()
+    city = models.CharField(max_length=50)
+```
+
+- now when we define the Principal model, we have to provide the CollegeID field as the foreign key to indicate the person with the given ID is the principal of which college.
+    - NB: the foreign key field must be of a special field type `OneToOneField`
+    - the first parameter should be the table to which the foreign key refers to, and the second one specified what happends when the associated object in the primary model is deleted.
+    - the `on_delete` option should be one of the following values:
+        - CASCADE: deletes the object containing the FK
+        - PROTECT: prevents deletion of the referenced object
+        - RESTRICT: prevents deletion of the referenced object by raising RestrictedError
+
+- translated into code, the Principal model with field structure:
+
+```python
+class Principal(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
+    qualification = models.CharField(max_length=50)
+
+    CollegeID = models.OneToOneField(
+        College,
+        on_delete=models.CASCADE
+    )
+```
+
+2. One-to-Many Relationship
+
+- in a one-to-many relationship, one object of a model can be associated with one or more objects of another e.g., a teacher qualified to teach a subject and more than one teacher in a college who can teach the same subject.
+
+- translating into code, the Subject model code:
+
+```python
+class Subjet(models.Mode):
+    Subjectcode = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=30)
+    credits = models.IntegerField()
+```
+
+- the Teacher model has its own primary key. its foreign key Subjectcode establishes one-to-many relationship with the Subject model.
+
+- translating into code, the Teacher model code:
+
+```python
+class Teacher(models.Model):
+    TeacherID = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
+    qualification = models.CharField(max_length=50)
+
+    subjectcode=models.ForeignKey(
+        Subject,
+        on_delete=models.CASCADE
+    )
+```
+
+3. Many-to-Many Relationship
+
+- in a many-to-many relationship, multiple objects of one model can be associated with multiple objects of another model.
+- Example: let's assume that the college has more than one teacher who can teach the same subject, additionally, a teach can teach more than one subject as well [many-to-many relationship].
+- can be implemented with `ManyToManyField` type
+
+```python
+class Teacher(models.Model):
+    TeacherID = models.IntegerField(primary_key=True)
+    name = models.EmailField(max_length=50)
+    qualification = models.CharField(max_length=50)
+```
+
+```python
+class Subjet(models.Mode):
+    Subjectcode = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=30)
+    credits = models.IntegerField()
+    teacher = models.ManyToManyField(Teacher)
+```
