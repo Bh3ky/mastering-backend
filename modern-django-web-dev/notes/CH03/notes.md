@@ -7,14 +7,14 @@ Instead of interacting with the database with raw SQL queries, Django recommends
 **Objectives**
 
 - [x] DB-API
-- [ ] ORM
-- [ ] Database configuration
-- [ ] Model class
-- [ ] Migrations
-- [ ] Django admin shell
-- [ ] CRUD operations
-- [ ] Model field types
-- [ ] Model relationships
+- [x] ORM
+- [x] Database configuration
+- [x] Model class
+- [x] Migrations
+- [x] Django admin shell
+- [x] CRUD operations
+- [x] Model field types
+- [x] Model relationships
 
 ## DB-API
 
