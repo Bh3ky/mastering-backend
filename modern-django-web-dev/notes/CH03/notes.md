@@ -337,9 +337,13 @@ class Teacher(models.Model):
 ```
 
 ```python
-class Subjet(models.Mode):
+class Subject(models.Mode):
     Subjectcode = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=30)
     credits = models.IntegerField()
     teacher = models.ManyToManyField(Teacher)
 ```
+
+>NOTE: A Many-to-Many relationship cannot be represented by simply putting one foreign key in either table because let's take for instance one subject can have multiple teachers and one teacher can teach multiple subjects. So how does Django implement this relationship???
+
+> Django create a third table called an intermediary table, also known as a junction table or joing table.
