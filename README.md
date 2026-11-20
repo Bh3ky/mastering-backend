@@ -91,10 +91,10 @@ Refer to each project's README for run instructions.
 
 ## Philosophy
 
-- Learn deeply, not quickly
-- Build things that can grow
-- Learn by making mistakes and fixing them
-- Write code that is understandable six months later
+- Learn deeply, not quickly.
+- Build things that can grow.
+- Learn by making mistakes and fixing them.
+- Write code that is understandable six months later.
 
 
 ## License
